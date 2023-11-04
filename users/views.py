@@ -3,7 +3,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from users.models import User
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, MyTokenObtainPairSerializer
+
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class UserAPIView(APIView):
@@ -18,3 +20,7 @@ class UserAPIView(APIView):
 class UserListAPIView(ListAPIView):
     serializer_class = UserSerializer  # Указание сериализатора для обработки
     queryset = User.objects.all()
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
