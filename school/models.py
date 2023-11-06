@@ -1,6 +1,9 @@
+from django.conf import settings
 from django.db import models
 
-from users.models import NULLABLE, User
+from users.models import User
+
+NULLABLE = {'blank': True, 'null': True}
 
 
 class Course(models.Model):
@@ -35,4 +38,16 @@ class Lesson(models.Model):
         verbose_name_plural = 'уроки'
 
 
+class Subscription(models.Model):
+    """ Признак подписки пользователя на курс"""
 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="пользователь")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс', **NULLABLE)
+    subscribed = models.BooleanField(default=False, verbose_name='признак подписки')
+
+    def __str__(self):
+        return f'{self.user} - {self.course}' or ''
+
+    class Meta:
+        verbose_name = 'подписка'
+        verbose_name_plural = 'подписки'
