@@ -212,6 +212,9 @@ class LessonTestCase(APITestCase):
             Lesson.objects.all().count(), 2
         )
 
+
+
+
     def test_get_list(self):
         response = self.client.get(
             reverse('school:lesson-list')
@@ -235,7 +238,7 @@ class LessonTestCase(APITestCase):
 
         self.assertEqual(
             response.json(),
-            {'id': 5, 'title': 'TestLesson', 'description': 'TestLessonDescription', 'avatar': None,
+            {'id': 6, 'title': 'TestLesson', 'description': 'TestLessonDescription', 'avatar': None,
              'url': 'https://youtube.com', 'course': self.course.pk, 'owner': self.user.pk}
 
         )
@@ -261,7 +264,7 @@ class LessonTestCase(APITestCase):
 
         self.assertEqual(
             response.json(),
-            {'id': 6, 'title': 'LessonTestTitle', 'description': 'TEST2', 'avatar': None,
+            {'id': 7, 'title': 'LessonTestTitle', 'description': 'TEST2', 'avatar': None,
              'url': 'https://youtube.com/testtest/', 'course': self.course.pk, 'owner': self.user.pk}
 
         )
@@ -280,7 +283,25 @@ class LessonTestCase(APITestCase):
             list(Lesson.objects.all()),
             []
         )
+    def test_create_bad_Lesson(self):
+        """Создание урока с ошибкой"""
+        data = {
+            "course": self.course.pk,
+            "title": "TEST3",
+            "description": "TEST3",
+            "url": "https://google.com",
+            "owner": self.user.pk
+        }
 
+        response = self.client.post(
+            reverse('school:lesson-create'),
+            data=data
+        )
+
+        self.assertEqual(
+            response.status_code,
+            status.HTTP_400_BAD_REQUEST
+        )
     def tearDown(self):
         self.user.delete()
         self.course.delete()
