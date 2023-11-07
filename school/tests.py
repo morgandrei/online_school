@@ -212,9 +212,6 @@ class LessonTestCase(APITestCase):
             Lesson.objects.all().count(), 2
         )
 
-
-
-
     def test_get_list(self):
         response = self.client.get(
             reverse('school:lesson-list')
@@ -283,7 +280,8 @@ class LessonTestCase(APITestCase):
             list(Lesson.objects.all()),
             []
         )
-    def test_create_bad_Lesson(self):
+
+    def test_create_bad_lesson(self):
         """Создание урока с ошибкой"""
         data = {
             "course": self.course.pk,
@@ -302,6 +300,7 @@ class LessonTestCase(APITestCase):
             response.status_code,
             status.HTTP_400_BAD_REQUEST
         )
+
     def tearDown(self):
         self.user.delete()
         self.course.delete()
