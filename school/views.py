@@ -15,9 +15,13 @@ class CourseViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = SchoolPagination
 
-    def create(self, request, *args, **kwargs):
+    def perform_create(self, request, *args, **kwargs):
         if request.user.role != UserRoles.MODERATOR:
+            new_course = serializer.save()
+            new_course.owner = self.request.user
+            new_course.save()
             return super().create(request, *args, **kwargs)
+
 
     def destroy(self, request, *args, **kwargs):
         if request.user.role != UserRoles.MODERATOR:

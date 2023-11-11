@@ -1,12 +1,28 @@
-from rest_framework import viewsets
+from rest_framework import generics
+from rest_framework.generics import ListAPIView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
 
+from school.permissions import IsSuperuser
 from users.models import User
-from users.serializers import UserSerializer
-from rest_framework.permissions import IsAuthenticated
+from users.serializers import UserSerializer, MyTokenObtainPairSerializer
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+class UserAPIView(generics.CreateAPIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            return Response({'message': 'Пользователь успешно создан'})
+        return Response(serializer.errors, status=400)
+
+
+class UserListAPIView(ListAPIView):
+    serializer_class = UserSerializer  # Указание сериализатора для обработки
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSuperuser]
 
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
