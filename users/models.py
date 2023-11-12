@@ -24,7 +24,7 @@ class User(AbstractUser):
     city = models.CharField(max_length=100, verbose_name='город', **NULLABLE)
     about_me = models.TextField(verbose_name='о себе', **NULLABLE)
     token = models.CharField(max_length=100, **NULLABLE)
-    is_active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=False)
     role = models.CharField(max_length=15, choices=UserRoles.choices, default=UserRoles.MEMBER,
                             verbose_name='роль в проекте')
 
@@ -33,6 +33,8 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.email}' or ''
+
+
 
     class Meta:
         verbose_name = 'пользователь'
