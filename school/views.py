@@ -1,5 +1,7 @@
 from rest_framework import viewsets, generics
+from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from school.models import Course, Lesson, Subscription
 from school.permissions import IsOwner, IsModerator, IsMember, IsSuperuser
@@ -15,17 +17,16 @@ class CourseViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     pagination_class = SchoolPagination
 
-    def perform_create(self, request, *args, **kwargs):
-        if request.user.role != UserRoles.MODERATOR:
-            new_course = serializer.save()
-            new_course.owner = self.request.user
-            new_course.save()
-            return super().create(request, *args, **kwargs)
+    @action(detail=False, methods=['post'])
+    def custom_create(self, request, *args, **kwargs):
+        if request.user.role == UserRoles.MODERATOR:
+            return Response({"detail": "Модераторы не могут создавать курсы."})
+        return super().create(request, *args, **kwargs)
 
-
-    def destroy(self, request, *args, **kwargs):
-        if request.user.role != UserRoles.MODERATOR:
-            return super().destroy(request, *args, **kwargs)
+    def custom_destroy(self, request, *args, **kwargs):
+        if request.user.role == UserRoles.MODERATOR:
+            return Response({"detail": "Модераторы не могут удалять курсы."})
+        return super().destroy(request, *args, **kwargs)
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
@@ -78,5 +79,3 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         """Сохранение подписки True или False для определенного пользователя"""
         new_subscription = serializer.save(user=self.request.user)
         new_subscription.save()
-
-
