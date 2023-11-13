@@ -4,13 +4,10 @@ from users.views import UserAPIView
 from users.apps import UsersConfig
 from rest_framework.routers import DefaultRouter
 
-
-
 app_name = UsersConfig.name
 
-
 urlpatterns = [
-                  path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-                  path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-                  path('create/', UserAPIView. as_view(), name='user-create')
-              ]
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('create/', UserAPIView.as_view(), name='user-create')
+]
