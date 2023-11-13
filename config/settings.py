@@ -20,6 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env_path = BASE_DIR / '.env'
 load_dotenv(dotenv_path=env_path)
+STRIPE_KEY = os.getenv('STRIPE_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -184,12 +185,11 @@ SIMPLE_JWT = {
 }
 
 #CORS_ALLOWED_ORIGINS = [
-#    '<http://localhost:8000>',  # Замените на адрес вашего фронтенд-сервера
+#    '<http://http://127.0.0.1:8000/>',  # Замените на адрес вашего фронтенд-сервера
 #]
 
 #CSRF_TRUSTED_ORIGINS = [
-#    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера
-    # и добавьте адрес бэкенд-сервера
+#    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера и добавьте адрес бэкенд-сервера
 #]
 
 CORS_ALLOW_ALL_ORIGINS = False

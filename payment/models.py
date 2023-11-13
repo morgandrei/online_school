@@ -13,7 +13,7 @@ class Payment(models.Model):
         (BANK_TRANSFER, 'Перевод на счет'),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, verbose_name='пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
     data_pay = models.DateField(auto_now_add=True, verbose_name='дата оплаты')
     pay_course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='оплата курса', **NULLABLE)
     pay_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='оплата урока', **NULLABLE)
