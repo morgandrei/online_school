@@ -23,7 +23,7 @@ class PaymentViewSet(viewsets.ModelViewSet):
         currency = 'usd'
 
         try:
-            intent = create_payment(amount, currency)
+            intent = create_payment()
 
             payment = Payment.objects.create(
                 user=request.user,
