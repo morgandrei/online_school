@@ -14,6 +14,7 @@ import os
 from datetime import timedelta
 from pathlib import Path
 from dotenv import load_dotenv
+from django.utils import timezone
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'drf_yasg',
     'corsheaders',
+    'django_celery_beat',
 
     'users',
     'school',
@@ -184,12 +186,26 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
-#CORS_ALLOWED_ORIGINS = [
+# CORS_ALLOWED_ORIGINS = [
 #    '<http://http://127.0.0.1:8000/>',  # Замените на адрес вашего фронтенд-сервера
-#]
+# ]
 
-#CSRF_TRUSTED_ORIGINS = [
+# CSRF_TRUSTED_ORIGINS = [
 #    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера и добавьте адрес бэкенд-сервера
-#]
+# ]
 
 CORS_ALLOW_ALL_ORIGINS = False
+
+# Настройки для Celery
+CELERY_BEAT_SCHEDULE = {
+    'blocking_inactive_users': {
+        'task': 'users.tasks.blocking_inactive_users',  # Имя задачи
+        'schedule': timezone.timedelta(days=1),  # Запускать задачу каждый день
+    },
+}
+
+CELERY_BROKER_URL = 'redis://localhost:6379'  # URL-адрес брокера Redis, который по умолчанию работает на порту 6379
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'  # URL-адрес брокера результатов, также Redis
+CELERY_TIMEZONE = 'Europe/Moscow'  # Часовой пояс для работы Celery
+CELERY_TASK_TRACK_STARTED = True  # Флаг отслеживания выполнения задач
+CELERY_TASK_TIME_LIMIT = 30 * 60  # Максимальное время на выполнение задачи
