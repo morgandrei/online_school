@@ -82,3 +82,9 @@ class SubscriptionViewSet(viewsets.ModelViewSet):
         """Сохранение подписки True или False для определенного пользователя"""
         new_subscription = serializer.save(user=self.request.user)
         new_subscription.save()
+
+    def update_course_materials(request, course_id):
+        """Отправка уведомления"""
+        send_subscription_notification.delay(course_id)
+
+        return HttpResponse('Материалы курса успешно обновлены!')
