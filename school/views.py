@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from school.models import Course, Lesson, Subscription
 from school.permissions import IsOwner, IsModerator, IsMember, IsSuperuser
 from school.serializers import CourseSerializer, LessonSerializer, SubscriptionSerializer
+from school.task import send_subscription_notification
 from users.models import UserRoles
 from school.pagination import SchoolPagination
 
@@ -38,6 +39,8 @@ class LessonCreateAPIView(generics.CreateAPIView):
         new_lesson = serializer.save()
         new_lesson.owner = self.request.user
         new_lesson.save()
+
+        send_subscription_notification.delay(new_lesson.course)
 
 
 class LessonListAPIView(generics.ListAPIView):

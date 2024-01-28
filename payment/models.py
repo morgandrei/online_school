@@ -23,6 +23,10 @@ class Payment(models.Model):
     def __str__(self):
         return f'{self.user} - {self.pay_course if self.pay_course else self.pay_lesson}'
 
+    def get_payment_method_display(self):
+        return dict(Payment.PAYMENT_METHOD_CHOICES)[self.payment_method]
+
+
     class Meta:
         verbose_name = 'платеж'
         verbose_name_plural = 'платежи'
