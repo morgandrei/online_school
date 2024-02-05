@@ -93,12 +93,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME'),  # Название БД
-        'USER': os.getenv('DB_USER'),  # Пользователь для подключения
-        'PASSWORD': os.getenv('BD_PASS'),  # Пароль для этого пользователя
-        'HOST': os.getenv('DB_HOST'),  # Адрес, на котором развернут сервер БД
-        'PORT': os.getenv('DB_PORT'),  # Порт, на котором работает сервер БД
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #'NAME': os.getenv('POSTGRES_DB'),  # Название БД
+        #'USER': os.getenv('POSTGRES_USER'),  # Пользователь для подключения
+        #'PASSWORD': os.getenv('POSTGRES_PASSWORD'),  # Пароль для этого пользователя
+        #'HOST': os.getenv('DB_HOST'),  # Адрес, на котором развернут сервер БД
+        #'PORT': os.getenv('DB_PORT'),  # Порт, на котором работает сервер БД
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'online_school',
+        'USER': 'postgres',
+        'PASSWORD': 'mysecretpassword',
+        'HOST': 'db',  # Название сервиса в docker-compose.yaml
+#        'PORT': os.getenv('DB_PORT'),
     }
 }
 
