@@ -210,7 +210,7 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-CELERY_BROKER_URL = 'redis://localhost:6379'  # URL-адрес брокера Redis, который по умолчанию работает на порту 6379
+CELERY_BROKER_URL = 'redis://redis:6379'  # URL-адрес брокера Redis, который по умолчанию работает на порту 6379
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'  # URL-адрес брокера результатов, также Redis
 CELERY_TIMEZONE = 'Europe/Moscow'  # Часовой пояс для работы Celery
 CELERY_TASK_TRACK_STARTED = True  # Флаг отслеживания выполнения задач
